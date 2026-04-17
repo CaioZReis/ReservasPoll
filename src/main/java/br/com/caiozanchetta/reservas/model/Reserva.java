@@ -5,16 +5,19 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 @Entity
+@Table(name = "reservas")
 public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne
+    @JoinColumn(name = "salas_id")
     @NotNull
     private Sala sala;
 
     @ManyToOne
+    @JoinColumn(name = "usuarios_id")
     @NotNull
     private Usuario usuario;
 
@@ -22,7 +25,7 @@ public class Reserva {
     private LocalDateTime fim;
 
     @Enumerated(EnumType.STRING)
-    private StatusReserva status;
+    private StatusReserva status = StatusReserva.ATIVA;
 
     protected Reserva() {}
 
@@ -54,5 +57,53 @@ public class Reserva {
             throw new IllegalStateException("Reserva já está cancelada.");
         }
         this.status = StatusReserva.CANCELADA;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public @NotNull Sala getSala() {
+        return sala;
+    }
+
+    public void setSala(@NotNull Sala sala) {
+        this.sala = sala;
+    }
+
+    public @NotNull Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(@NotNull Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public LocalDateTime getInicio() {
+        return inicio;
+    }
+
+    public void setInicio(LocalDateTime inicio) {
+        this.inicio = inicio;
+    }
+
+    public LocalDateTime getFim() {
+        return fim;
+    }
+
+    public void setFim(LocalDateTime fim) {
+        this.fim = fim;
+    }
+
+    public StatusReserva getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusReserva status) {
+        this.status = status;
     }
 }
